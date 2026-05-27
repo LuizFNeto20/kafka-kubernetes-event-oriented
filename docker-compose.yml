@@ -1,0 +1,88 @@
+networks:
+  network-orquestrador:
+    driver: bridge
+  network-worker-definer:
+    driver: bridge
+  network-worker-region:
+    driver: bridge
+  network-kafka:
+    driver: bridge
+
+services:
+  db-orquestrador:
+    image: postgres:15
+    container_name: db-orquestrador
+    environment:
+      POSTGRES_DB: db-orquestrador
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    networks:
+      - network-orquestrador
+
+  sfr-orquestrador-api:
+    build: ./sfr-orquestrador-api
+    container_name: sfr-orquestrador-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db-orquestrador
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-orquestrador:5432/db-orquestrador
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+    networks:
+      - network-orquestrador
+
+  db-worker-definer:
+    image: postgres:15
+    container_name: db-worker-definer
+    environment:
+      POSTGRES_DB: db-worker-definer
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    networks:
+      - network-worker-definer  
+
+  sfr-worker-definer:
+    build: ./sfr-worker-definer
+    container_name: sfr-worker-definer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db-worker-definer
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-worker-definer:5432/db-worker-definer
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+    networks:
+      - network-worker-definer  
+
+  db-worker-region:
+    image: postgres:15
+    container_name: db-worker-region
+    environment:
+      POSTGRES_DB: db-worker-region
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+    networks:
+      - network-worker-region
+
+  sfr-worker-region:
+    build: ./sfr-worker-region
+    container_name: sfr-worker-region
+    ports:
+      - "8082:8080"
+    depends_on:
+      - db-worker-region
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-worker-region:5432/db-worker-region
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+    networks:
+      - network-worker-region
