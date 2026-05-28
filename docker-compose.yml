@@ -18,6 +18,13 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5433:5432"
+    volumes:
+      - pgdata-orquestrador:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d db-orquestrador"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - network-orquestrador
 
@@ -32,8 +39,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-orquestrador:5432/db-orquestrador
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - network-orquestrador
+      - network-kafka
 
   db-worker-definer:
     image: postgres:15
@@ -44,6 +53,13 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5434:5432"
+    volumes:
+      - pgdata-worker-definer:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d db-worker-definer"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - network-worker-definer  
 
@@ -58,8 +74,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-worker-definer:5432/db-worker-definer
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
-      - network-worker-definer  
+      - network-worker-definer
+      - network-kafka
 
   db-worker-region:
     image: postgres:15
@@ -70,6 +88,13 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5435:5432"
+    volumes:
+      - pgdata-worker-region:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d db-worker-region"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - network-worker-region
 
@@ -84,5 +109,35 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-worker-region:5432/db-worker-region
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - network-worker-region
+      - network-kafka
+
+  kafka:
+    image: apache/kafka:3.7.0 
+    container_name: kafka
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:29093'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LISTENERS: 'PLAINTEXT://:9092,CONTROLLER://:29093,EXTERNAL://:9094'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_LOG_DIRS: '/var/lib/kafka/data'
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    networks:
+      - network-kafka
+
+volumes:
+  pgdata-orquestrador:
+  pgdata-worker-definer:
+  pgdata-worker-region:
+  kafka-data:
