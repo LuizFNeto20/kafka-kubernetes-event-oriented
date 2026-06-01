@@ -1,0 +1,42 @@
+networks:
+  network-worker-region:
+    driver: bridge
+
+services:
+  db-worker-region:
+    image: postgres:15
+    container_name: db-worker-region
+    environment:
+      POSTGRES_DB: db-worker-region
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgdata-worker-region:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d db-worker-region"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - network-worker-region
+
+  sfr-worker-region:
+    build: .
+    container_name: sfr-worker-region
+    ports:
+      - "8082:8080"
+    depends_on:
+      - db-worker-region
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-worker-region:5432/db-worker-region
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    networks:
+      - network-worker-region
+      - network-kafka
+
+volumes:
+  pgdata-worker-region:
