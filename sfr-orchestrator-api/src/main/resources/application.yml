@@ -6,6 +6,6 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://db:5432/sfr-orquestrador-api
+    url: jdbc:postgresql://db:5432/sfr-orchestrator-api
     username: user
     password: password
