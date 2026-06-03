@@ -148,8 +148,8 @@
 							<goal>schema</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory> <!-- <5> -->
-							<outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+							<sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
+							<outputDirectory>${project.build.directory}/generated-sources/avro</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>

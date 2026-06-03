@@ -1,13 +1,15 @@
-package com.sfr.sfr_orquestrador_api.domain.entity;
+package com.sfr.sfr_orchestrator_api.domain.entity;
 
 import java.util.UUID;
 
-import com.sfr.sfr_orquestrador_api.domain.enums.DeliveryStatus;
-import com.sfr.sfr_orquestrador_api.domain.enums.DeliveryType;
+import com.sfr.sfr_orchestrator_api.domain.enums.DeliveryStatus;
+import com.sfr.sfr_orchestrator_api.domain.enums.DeliveryType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,17 +36,17 @@ public class PackageDelivery {
 
     private UUID correlationId;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dimension_id", referencedColumnName = "id")
     private PackageDimension dimension;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "region_id", referencedColumnName = "id")
     private PackageRegion region;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
-    
+
     @Enumerated(EnumType.STRING)
     private DeliveryType deliveryType;
 }

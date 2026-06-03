@@ -1,30 +1,26 @@
-package com.sfr.sfr_orquestrador_api.domain.enums;
+package com.sfr.sfr_orchestrator_api.domain.enums;
 
-public enum DeliveryStatus {
-    STARTED(1),
-    PENDING_DELIVERY_TYPE(2),
-    DELIVERY_TYPE_DEFINED(3),
-    FINISHED(4);
+public enum DeliveryType {
+    AIR(1),
+    ROAD(2),
+    LOCAL(3);
 
     private int code;
 
-
-    private DeliveryStatus(int code) { 
+    private DeliveryType(int code) {
         this.code = code;
     }
-
 
     public int getCode() {
         return code;
     }
 
-
     public void setCode(int code) {
         this.code = code;
     }
 
-    public static DeliveryStatus valueOf(int code) {
-        for (DeliveryStatus value : DeliveryStatus.values()) {
+    public static DeliveryType valueOf(int code) {
+        for (DeliveryType value : DeliveryType.values()) {
             if (value.getCode() == code) {
                 return value;
             }

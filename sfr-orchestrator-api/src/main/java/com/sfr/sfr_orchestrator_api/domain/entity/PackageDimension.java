@@ -1,4 +1,4 @@
-package com.sfr.sfr_orquestrador_api.domain.entity;
+package com.sfr.sfr_orchestrator_api.domain.entity;
 
 import java.util.UUID;
 

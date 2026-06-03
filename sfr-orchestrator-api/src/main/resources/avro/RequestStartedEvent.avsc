@@ -1,5 +1,5 @@
 {
-    "namespace": "com.sfr.sfr_orquestrador_api.avro",
+    "namespace": "com.sfr.sfr_orchestrator_api.avro",
     "type": "record",
     "name": "RequestStartedEvent",
     "fields": [

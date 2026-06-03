@@ -6,10 +6,13 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://db:5432/sfr-orchestrator-api
+    url: jdbc:postgresql://db-orchestrator:5433/sfr-orchestrator-api
     username: user
     password: password
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
     properties:
       schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8085}
