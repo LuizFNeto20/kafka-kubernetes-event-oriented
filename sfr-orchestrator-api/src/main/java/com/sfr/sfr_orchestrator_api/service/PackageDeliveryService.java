@@ -18,14 +18,11 @@ public class PackageDeliveryService {
     private final PackageDeliveryRepository repository;
     private final PackageDeliveryProducer producer;
 
-    public UUID create(PackageDeliveryRequest packageDelivery) {
+    public void create(PackageDeliveryRequest packageDelivery) {
 
-        UUID orderId = UUID.randomUUID();
         UUID correlationId = UUID.randomUUID();
 
         producer.send(PackageDeliveryMapper
-                .toEvent(repository.save(PackageDeliveryMapper.toDelivery(packageDelivery, orderId, correlationId))));
-
-        return orderId;
+                .toEvent(repository.save(PackageDeliveryMapper.toDelivery(packageDelivery, correlationId))));
     }
 }

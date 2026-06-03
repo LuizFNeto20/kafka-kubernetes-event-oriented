@@ -1,7 +1,7 @@
 include:
   - ./sfr-orchestrator-api/docker-compose.yml
-  #- ./sfr-worker-definer/docker-compose.yml
-  #- ./sfr-worker-region/docker-compose.yml
+  - ./sfr-worker-definer/docker-compose.yml
+  - ./sfr-worker-region/docker-compose.yml
 
 networks:
   network-kafka:

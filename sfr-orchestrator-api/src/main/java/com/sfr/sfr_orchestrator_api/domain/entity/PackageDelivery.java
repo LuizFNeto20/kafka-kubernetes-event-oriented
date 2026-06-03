@@ -31,7 +31,7 @@ import lombok.Setter;
 @Builder
 public class PackageDelivery {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID orderId;
 
     private UUID correlationId;

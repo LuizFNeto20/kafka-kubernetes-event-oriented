@@ -13,9 +13,8 @@ import com.sfr.sfr_orchestrator_api.dto.PackageDeliveryRequest;
 
 @Component
 public class PackageDeliveryMapper {
-        public static PackageDelivery toDelivery(PackageDeliveryRequest request, UUID orderId, UUID correlationId) {
+        public static PackageDelivery toDelivery(PackageDeliveryRequest request, UUID correlationId) {
                 return PackageDelivery.builder()
-                                .orderId(orderId)
                                 .correlationId(correlationId)
                                 .dimension(PackageDimension.builder()
                                                 .height(request.height())
@@ -41,6 +40,8 @@ public class PackageDeliveryMapper {
                                 .setWeight(delivery.getDimension().getWeight())
                                 .setOriginZipCode(delivery.getRegion().getOriginZipCode())
                                 .setDestinationZipCode(delivery.getRegion().getDestinationZipCode())
+                                .setCargoType(delivery.getDeliveryType() != null ? delivery.getDeliveryType().name()
+                                                : null)
                                 .build();
         }
 }

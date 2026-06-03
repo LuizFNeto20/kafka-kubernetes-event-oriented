@@ -22,7 +22,7 @@ import lombok.Setter;
 @Builder
 public class PackageRegion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String originZipCode;

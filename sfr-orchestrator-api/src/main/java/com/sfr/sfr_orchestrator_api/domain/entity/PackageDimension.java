@@ -22,7 +22,7 @@ import lombok.Setter;
 @Builder
 public class PackageDimension {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private double height;
