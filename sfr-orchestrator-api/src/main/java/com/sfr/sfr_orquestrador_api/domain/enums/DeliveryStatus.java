@@ -1,10 +1,10 @@
-package com.sfr.sfr_orquestrador_api.domain;
+package com.sfr.sfr_orquestrador_api.domain.enums;
 
 public enum DeliveryStatus {
-    INICIADO(1),
-    PENDENTE_TIPO_ENTREGA(2),
-    TIPO_ENTREGA_DEFINIDO(3),
-    FINALIZADO(4);
+    STARTED(1),
+    PENDING_DELIVERY_TYPE(2),
+    DELIVERY_TYPE_DEFINED(3),
+    FINISHED(4);
 
     private int code;
 

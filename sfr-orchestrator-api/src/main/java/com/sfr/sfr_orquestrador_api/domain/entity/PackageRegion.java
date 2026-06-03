@@ -1,4 +1,4 @@
-package com.sfr.sfr_orquestrador_api.domain;
+package com.sfr.sfr_orquestrador_api.domain.entity;
 
 import java.util.UUID;
 
@@ -24,6 +24,8 @@ public class PackageRegion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
     private String originZipCode;
+    
     private String destinationZipCode;
 }

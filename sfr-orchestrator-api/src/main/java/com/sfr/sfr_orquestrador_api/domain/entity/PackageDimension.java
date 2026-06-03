@@ -1,4 +1,4 @@
-package com.sfr.sfr_orquestrador_api.domain;
+package com.sfr.sfr_orquestrador_api.domain.entity;
 
 import java.util.UUID;
 
@@ -24,8 +24,12 @@ public class PackageDimension {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
     private double height;
+
     private double width;
+
     private double length;
+
     private double weight;
 }

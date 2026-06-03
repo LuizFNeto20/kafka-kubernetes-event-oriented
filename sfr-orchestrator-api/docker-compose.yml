@@ -30,11 +30,17 @@ services:
     depends_on:
       - db-orchestrator
     environment:
+      # Database configuration
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-orchestrator:5432/db-orchestrator
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
+      # Schema Registry configuration
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+
+      # Kafka configuration
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC_PACKAGE_DELIVERY=package-delivery-topic
     networks:
       - network-orchestrator
       - network-kafka

@@ -1,6 +1,9 @@
-package com.sfr.sfr_orquestrador_api.domain;
+package com.sfr.sfr_orquestrador_api.domain.entity;
 
 import java.util.UUID;
+
+import com.sfr.sfr_orquestrador_api.domain.enums.DeliveryStatus;
+import com.sfr.sfr_orquestrador_api.domain.enums.DeliveryType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +11,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,12 +30,21 @@ import lombok.Setter;
 public class PackageDelivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
-    private PackageDimension dimension;
-    private PackageRegion region;
+    private UUID orderId;
+
     private UUID correlationId;
+
+    @OneToOne
+    @JoinColumn(name = "dimension_id", referencedColumnName = "id")
+    private PackageDimension dimension;
+
+    @OneToOne
+    @JoinColumn(name = "region_id", referencedColumnName = "id")
+    private PackageRegion region;
+
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
+    
     @Enumerated(EnumType.STRING)
     private DeliveryType deliveryType;
 }

@@ -1,8 +1,8 @@
-package com.sfr.sfr_orquestrador_api.domain;
+package com.sfr.sfr_orquestrador_api.domain.enums;
 
 public enum DeliveryType {
-    AEREO(1),
-    RODOVIARIO(2),
+    AIR(1),
+    ROAD(2),
     LOCAL(3);
 
     private int code;
