@@ -4,11 +4,13 @@ import com.sfr.sfr_orchestrator_api.application.port.JpaRepositoryPort;
 import com.sfr.sfr_orchestrator_api.domain.entity.PackageDelivery;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
-public class RepositoryPortImplements implements JpaRepositoryPort {
+public class PackageDeliveryPersistenceAdapter implements JpaRepositoryPort {
 
-    public final JpaPackageDeliveryRepository repository;
+    private final JpaPackageDeliveryRepository repository;
 
     @Override
     public PackageDelivery save(PackageDelivery delivery) {
