@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db-orchestrator:5432/db-orchestrator}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    properties:
+      schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8085}
+
+kafka:
+  topic:
+    package-delivery: "package-delivery-topic"
