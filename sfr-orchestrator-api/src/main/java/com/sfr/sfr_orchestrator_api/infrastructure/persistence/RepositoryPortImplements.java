@@ -1,11 +1,14 @@
 package com.sfr.sfr_orchestrator_api.infrastructure.persistence;
 
+import org.springframework.stereotype.Component;
+
 import com.sfr.sfr_orchestrator_api.application.port.JpaRepositoryPort;
 import com.sfr.sfr_orchestrator_api.domain.entity.PackageDelivery;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Component
 public class RepositoryPortImplements implements JpaRepositoryPort {
 
     public final JpaPackageDeliveryRepository repository;
