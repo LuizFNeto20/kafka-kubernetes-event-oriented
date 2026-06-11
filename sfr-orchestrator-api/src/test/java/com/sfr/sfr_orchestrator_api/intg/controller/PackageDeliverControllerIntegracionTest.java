@@ -41,7 +41,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.sfr.sfr_orchestrator_api.application.dto.PackageDeliveryRequest;
-import com.sfr.sfr_orchestrator_api.application.port.JpaRepositoryPort;
 import com.sfr.sfr_orchestrator_api.application.port.OutboxRepositoryPort;
 import com.sfr.sfr_orchestrator_api.config.KafkaTopicsProperties;
 import com.sfr.sfr_orchestrator_api.domain.entity.OutboxEvent;
@@ -73,9 +72,6 @@ public class PackageDeliverControllerIntegracionTest {
 
         @MockitoBean
         OutboxRepositoryPort outboxRepositoryPort;
-
-        @MockitoBean
-        JpaRepositoryPort jpaRepositoryPort;
 
         @Autowired
         KafkaTopicsProperties topicsProperties;
@@ -122,8 +118,6 @@ public class PackageDeliverControllerIntegracionTest {
                 when(outboxRepositoryPort.findUnprocessedEvents())
                                 .thenReturn(List.of(outboxEvent))
                                 .thenReturn(Collections.emptyList());
-
-                when(jpaRepositoryPort.save(any())).thenReturn(any());
 
                 ArgumentCaptor<OutboxEvent> outboxCaptor = ArgumentCaptor.forClass(OutboxEvent.class);
 
