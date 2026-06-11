@@ -13,6 +13,7 @@ import com.sfr.sfr_orchestrator_api.application.mapper.PackageDeliveryMapper;
 import com.sfr.sfr_orchestrator_api.application.port.JpaRepositoryPort;
 import com.sfr.sfr_orchestrator_api.application.port.OutboxRepositoryPort;
 import com.sfr.sfr_orchestrator_api.config.KafkaTopicsProperties;
+import com.sfr.sfr_orchestrator_api.config.exceptions.SerializerException;
 import com.sfr.sfr_orchestrator_api.domain.entity.OutboxEvent;
 import com.sfr.sfr_orchestrator_api.domain.entity.PackageDelivery;
 
@@ -44,8 +45,7 @@ public class PackageDeliveryService {
             outboxRepositoryPort.save(outboxEvent);
 
         } catch (Exception e) {
-            throw new RuntimeException("Falha ao serializar evento Outbox", e);
+            throw new SerializerException("", "");
         }
-
     }
 }
