@@ -89,12 +89,7 @@ public class PackageDeliverControllerIntegracionTest {
                 var httpHeaders = new HttpHeaders();
                 httpHeaders.set("content-type", MediaType.APPLICATION_JSON_VALUE.toString());
 
-                var requestBody = new PackageDeliveryRequest(
-                                15.5,
-                                20.0, 30.0,
-                                2.5,
-                                "01001-000",
-                                "20001-000");
+                var requestBody = getValidRequestBody();
 
                 var httpRequest = new HttpEntity<>(requestBody, httpHeaders);
 
@@ -121,14 +116,12 @@ public class PackageDeliverControllerIntegracionTest {
 
                 assertNotNull(eventValue.getOrderId(), "O OrderId não deveria ser nulo");
 
-                // Validando os valores numéricos (Double/Float)
                 assertEquals(requestBody.height(), eventValue.getHeight(), "A altura (height) diverge da requisição");
                 assertEquals(requestBody.width(), eventValue.getWidth(), "A largura (width) diverge da requisição");
                 assertEquals(requestBody.length(), eventValue.getLength(),
                                 "O comprimento (length) diverge da requisição");
                 assertEquals(requestBody.weight(), eventValue.getWeight(), "O peso (weight) diverge da requisição");
 
-                // Validando as Strings (usando toString() por conta dos tipos Utf8 do Avro)
                 assertEquals(
                                 requestBody.originZipCode(),
                                 eventValue.getOriginZipCode().toString(),
@@ -137,5 +130,16 @@ public class PackageDeliverControllerIntegracionTest {
                                 requestBody.destinationZipCode(),
                                 eventValue.getDestinationZipCode().toString(),
                                 "O CEP de destino diverge da requisição");
+        }
+
+        private PackageDeliveryRequest getValidRequestBody() {
+                var requestBody = new PackageDeliveryRequest(
+                                15.5,
+                                20.0,
+                                30.0,
+                                2.5,
+                                "01001000",
+                                "20001000");
+                return requestBody;
         }
 }
